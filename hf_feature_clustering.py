@@ -16,9 +16,11 @@ with open("desk_make.txt", "r") as f:
         embeds.append(embed(line.strip()))
 embeds = np.array(embeds)
 cos_sim = util.cos_sim(embeds, embeds)
-import matplotlib.pyplot as plt
+import pandas as pd
 
-plt.imshow(cos_sim, cmap='hot', interpolation='nearest')
-plt.colorbar()
-plt.show()
+# Convert cos_sim to DataFrame
+df = pd.DataFrame(cos_sim)
+
+# Save DataFrame to CSV
+df.to_csv("cos_sim.csv", index=False)
 print("test")

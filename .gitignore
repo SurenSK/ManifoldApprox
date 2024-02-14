@@ -2,3 +2,4 @@
 .cache/
 sentencetrans.py
 hf_feature_pipeline_tests.py
+cos_sim.csv
