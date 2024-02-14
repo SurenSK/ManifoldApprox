@@ -15,12 +15,13 @@ with open("desk_make.txt", "r") as f:
     for line in f:
         embeds.append(embed(line.strip()))
 embeds = np.array(embeds)
+n_samples = embeds.shape[0]
+distances = np.zeros((n_samples, n_samples))
+for i in range(n_samples):
+    for j in range(n_samples):
+        distances[i, j] = np.linalg.norm(embeds[i] - embeds[j])
+
 cos_sim = util.cos_sim(embeds, embeds)
 import pandas as pd
-
-# Convert cos_sim to DataFrame
-df = pd.DataFrame(cos_sim)
-
-# Save DataFrame to CSV
-df.to_csv("cos_sim.csv", index=False)
-print("test")
+df = pd.DataFrame(distances)
+df.to_csv("distances.csv", index=False)
