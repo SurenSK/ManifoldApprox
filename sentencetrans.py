@@ -19,6 +19,21 @@ with open("bomb_make.txt", "r") as file:
 
 embeddings = model.encode(sentences)
 
+from sklearn.decomposition import PCA
+import matplotlib.pyplot as plt
+
+pca = PCA(n_components=2)
+embeddings_pca = pca.fit_transform(embeddings)
+for i, sentence in enumerate(sentences):
+    x = embeddings_pca[i, 0]
+    y = embeddings_pca[i, 1]
+    plt.text(x, y, sentence)
+plt.scatter(embeddings_pca[:, 0], embeddings_pca[:, 1])
+plt.xlabel('Principal Component 1')
+plt.ylabel('Principal Component 2')
+plt.title('2D PCA of Embeddings')
+plt.show()
+
 for s in sentences:
     print(s, np.linalg.norm(bomb_mean - model.encode(s)) > bomb_dist_95)
 
