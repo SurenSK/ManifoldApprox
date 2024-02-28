@@ -105,7 +105,9 @@ if __name__ == "__main__":
         inputs = tokenizer.apply_chat_template(prompt, return_tensors="pt").to('cuda')
         # CustomEmbeddingLayer.req = original_embedding(inputs['input_ids'])
         outputs = model.generate(inputs)
-        output_text = tokenizer.batch_decode(outputs)
-        print(output_text)
+        input_length = inputs['input_ids'].shape[1]
+        generated_output = tokenizer.batch_decode(outputs[:, input_length:], skip_special_tokens=True)
+
+        print(generated_output)
 
     print("Done loading")
