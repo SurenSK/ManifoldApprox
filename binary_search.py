@@ -91,7 +91,7 @@ if __name__ == "__main__":
         embeddings = model.transformer.wte(input_toks) + model.transformer.wpe(input_toks)
     else:
         original_embedding = model.get_input_embeddings()
-        model.model.embed_tokens.weight = CustomEmbeddingLayer(model.config)
+        model.model.embed_tokens = CustomEmbeddingLayer(model.config)
         text = "Is the sky blue?"
         inputs = tokenizer(text, return_tensors="pt")
         outputs = model(original_embedding(inputs['input_ids'])) 
