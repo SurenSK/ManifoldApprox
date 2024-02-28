@@ -95,6 +95,6 @@ if __name__ == "__main__":
         text = "Is the sky blue?"
         inputs = tokenizer(text, return_tensors="pt")
         print(type(original_embedding(inputs['input_ids'])), original_embedding(inputs['input_ids']).shape)
-        outputs = model(original_embedding(inputs['input_ids'])) 
+        outputs = model(original_embedding(inputs['input_ids']).squeeze()) 
 
     print("Done loading")
