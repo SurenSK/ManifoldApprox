@@ -94,6 +94,7 @@ if __name__ == "__main__":
         model.model.embed_tokens = CustomEmbeddingLayer(model.config)
         text = "Is the sky blue?"
         inputs = tokenizer(text, return_tensors="pt")
+        print(type(original_embedding(inputs['input_ids'])), original_embedding(inputs['input_ids']).shape)
         outputs = model(original_embedding(inputs['input_ids'])) 
 
     print("Done loading")
