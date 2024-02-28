@@ -102,7 +102,7 @@ if __name__ == "__main__":
         inputs = tokenizer(input_prompt, return_tensors="pt").to('cuda')
         # CustomEmbeddingLayer.req = original_embedding(inputs['input_ids'])
         outputs = model.generate(inputs['input_ids'])
-        output_text = tokenizer.decode(outputs)
+        output_text = tokenizer.batch_decode(outputs)
         print(output_text)
 
     print("Done loading")
