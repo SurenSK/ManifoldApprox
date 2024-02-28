@@ -104,7 +104,7 @@ if __name__ == "__main__":
             {"role": "user", "content": f"{query}\n<|im_start|>assistant"}]
         inputs = tokenizer.apply_chat_template(prompt, return_tensors="pt").to('cuda')
         # CustomEmbeddingLayer.req = original_embedding(inputs['input_ids'])
-        outputs = model.generate(inputs['input_ids'])
+        outputs = model.generate(inputs)
         output_text = tokenizer.batch_decode(outputs)
         print(output_text)
 
