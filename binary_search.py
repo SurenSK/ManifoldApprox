@@ -70,11 +70,17 @@ import torch
 import torch.nn as nn
 
 class CustomEmbeddingLayer(nn.Module):
+    req = None
     def __init__(self, config):
         super().__init__()
         self.embedding_dim = config.hidden_size 
 
-    def forward(self, embeddings):
+    def forward(self):
+        embeddings = req
+        if req is None:
+            raise ValueError("No input found")
+        else:
+            print("Input found!")
         assert embeddings.shape[-1] == self.embedding_dim, \
             f"Expected embedding_dim={self.embedding_dim}, got {embeddings.shape[-1]}"
 
@@ -94,7 +100,8 @@ if __name__ == "__main__":
         model.model.embed_tokens = CustomEmbeddingLayer(model.config)
         text = "Is the sky blue?"
         inputs = tokenizer(text, return_tensors="pt")
-        print(type(original_embedding(inputs['input_ids'])), original_embedding(inputs['input_ids']).shape)
-        outputs = model(original_embedding(inputs['input_ids']).squeeze()) 
+        req = original_embedding(inputs['input_ids']).squeeze()
+        model.model.embed_tokens.req = req
+        outputs = model(inputs['input_ids']) 
 
     print("Done loading")
