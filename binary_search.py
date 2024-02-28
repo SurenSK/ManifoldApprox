@@ -75,7 +75,7 @@ class CustomEmbeddingLayer(nn.Module):
         super().__init__()
         self.embedding_dim = config.hidden_size 
 
-    def forward(self):
+    def forward(self, _):
         embeddings = req
         if req is None:
             raise ValueError("No input found")
