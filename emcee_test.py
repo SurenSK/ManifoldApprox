@@ -15,6 +15,7 @@ image_path = '2d_manifold.png'
 image = Image.open(image_path).convert('L')
 image_data = np.asarray(image)
 image_data = image_data / 255.0
+image_data = groundTruth
 def lnprob(xy, img_data):
     x, y = int(xy[0]), int(xy[1])
     if x < 0 or y < 0 or x >= img_data.shape[1] or y >= img_data.shape[0]:
@@ -36,4 +37,4 @@ for x, y in samples:
     x, y = int(x), int(y)
     if image_data[y, x] > threshold:
         manifold_points.append((x, y))
-display(groundTruth, manifold_points)
+display(image_data, manifold_points)

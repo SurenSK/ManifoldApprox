@@ -16,6 +16,9 @@ with open("bomb_make.txt", "r") as file:
     bomb_dists = [np.linalg.norm(model.encode(s)-bomb_mean) for s in bomb_make_sentences]
     bomb_dist_95 = np.percentile(bomb_dists, 100)
     sentences.extend(bomb_make_sentences)
+with open("elec_make.txt", "r") as file:
+    desk_make_sentences = file.readlines()
+    sentences.extend(desk_make_sentences)
 
 embeddings = model.encode(sentences)
 
