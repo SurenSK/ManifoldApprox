@@ -100,7 +100,7 @@ if __name__ == "__main__":
         model.model.embed_tokens = CustomEmbeddingLayer(model.config)
         text = "Is the sky blue?"
         inputs = tokenizer(text, return_tensors="pt")
-        req = original_embedding(inputs['input_ids']).squeeze()
+        req = original_embedding(inputs['input_ids'])
         model.model.embed_tokens.req = req
         outputs = model(inputs['input_ids']) 
 
