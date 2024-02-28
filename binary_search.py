@@ -102,6 +102,7 @@ if __name__ == "__main__":
         inputs = tokenizer(text, return_tensors="pt")
         req = original_embedding(inputs['input_ids'])
         model.model.embed_tokens.req = req
-        outputs = model(inputs['input_ids']) 
+        outputs = model(inputs['input_ids'])
+        print(outputs)
 
     print("Done loading")
