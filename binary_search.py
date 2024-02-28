@@ -103,6 +103,7 @@ if __name__ == "__main__":
         req = original_embedding(inputs['input_ids'])
         model.model.embed_tokens.req = req
         outputs = model(inputs['input_ids'])
-        print(outputs)
+        text = tokenizer.decode(outputs.logits.argmax(-1)[0])
+        print(text)
 
     print("Done loading")
