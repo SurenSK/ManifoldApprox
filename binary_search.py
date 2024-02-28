@@ -98,12 +98,11 @@ if __name__ == "__main__":
     else:
         original_embedding = model.get_input_embeddings()
         model.model.embed_tokens = CustomEmbeddingLayer(model.config)
-        text = "Is the sky blue?"
-        inputs = tokenizer(text, return_tensors="pt")
-        req = original_embedding(inputs['input_ids'])
-        model.model.embed_tokens.req = req
-        outputs = model(inputs['input_ids'])
-        text = tokenizer.decode(outputs.logits.argmax(-1)[0])
-        print(text)
+        input_prompt = "Is the sky blue?"
+        inputs = tokenizer(input_prompt, return_tensors="pt")
+        model.model.embed_tokens.req = original_embedding(inputs['input_ids'])
+        outputs = model.generate(inputs['input_ids'])
+        output_text = tokenizer.decode(outputs.logits.argmax(-1)[0])
+        print(output_text)
 
     print("Done loading")
