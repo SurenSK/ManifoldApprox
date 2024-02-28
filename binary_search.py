@@ -99,7 +99,7 @@ if __name__ == "__main__":
         original_embedding = model.get_input_embeddings()
         model.model.embed_tokens = CustomEmbeddingLayer(model.config)
         input_prompt = "Is the sky blue?"
-        inputs = tokenizer(input_prompt, return_tensors="pt")
+        inputs = tokenizer(input_prompt, return_tensors="pt").to('cuda')
         CustomEmbeddingLayer.req = original_embedding(inputs['input_ids'])
         outputs = model.generate(inputs['input_ids'])
         output_text = tokenizer.decode(outputs.logits.argmax(-1)[0])
