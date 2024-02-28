@@ -97,7 +97,7 @@ if __name__ == "__main__":
         embeddings = model.transformer.wte(input_toks) + model.transformer.wpe(input_toks)
     else:
         original_embedding = model.get_input_embeddings()
-        model.model.embed_tokens = CustomEmbeddingLayer(model.config)
+        # model.model.embed_tokens = CustomEmbeddingLayer(model.config)
         input_prompt = "Is the sky blue?"
         inputs = tokenizer(input_prompt, return_tensors="pt").to('cuda')
         # CustomEmbeddingLayer.req = original_embedding(inputs['input_ids'])
