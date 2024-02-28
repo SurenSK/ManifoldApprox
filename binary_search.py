@@ -98,8 +98,11 @@ if __name__ == "__main__":
     else:
         original_embedding = model.get_input_embeddings()
         # model.model.embed_tokens = CustomEmbeddingLayer(model.config)
-        input_prompt = "Is the sky blue?"
-        inputs = tokenizer.apply_chat_template(input_prompt, return_tensors="pt").to('cuda')
+        query = "Is the sky blue?"
+        prompt = [
+            {"role": "system", "content": "You are a helpful assistant. Please answer the following question."},
+            {"role": "user", "content": f"{query}\n<|im_start|>assistant"}]
+        inputs = tokenizer.apply_chat_template(prompt, return_tensors="pt").to('cuda')
         # CustomEmbeddingLayer.req = original_embedding(inputs['input_ids'])
         outputs = model.generate(inputs['input_ids'])
         output_text = tokenizer.batch_decode(outputs)
