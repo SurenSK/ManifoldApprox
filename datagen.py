@@ -1,14 +1,18 @@
-from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
+from transformers import AutoTokenizer, AutoModelForCausalLM
+
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
 tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-Instruct-v0.1")
-model = AutoModelForCausalLM.from_pretrained("mistralai/Mistral-7B-Instruct-v0.1", load_in_8bit=True)
+model = AutoModelForCausalLM.from_pretrained("mistralai/Mistral-7B-Instruct-v0.1", load_in_8bit=True, device_map="auto")
 
 def generate_response(prompt, chat_history):
     chat = chat_history + [{"role": "user", "content": prompt}]
     input_text = tokenizer.apply_chat_template(chat, tokenize=False)
     input_ids = tokenizer.encode(input_text, return_tensors="pt").to(device)
-    output = model.generate(input_ids, max_length=100, num_return_sequences=1, temperature=0.7)
+    attention_mask = torch.ones(input_ids.shape, dtype=torch.long, device=device)
+    pad_token_id = tokenizer.eos_token_id
+    output = model.generate(input_ids, attention_mask=attention_mask, pad_token_id=pad_token_id, max_length=200, do_sample=True, num_return_sequences=1, temperature=0.7)
     response = tokenizer.decode(output[0], skip_special_tokens=True)
     return response.strip()
 
