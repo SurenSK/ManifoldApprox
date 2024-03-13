@@ -21,17 +21,15 @@ def main():
     for i in range(num_iterations):
         if i % 2 == 0:
             prompt = f"{system_prompt1} Ask your {'first' if i == 0 else 'next'} question."
-            role = "user"
+            role = "user" if len(chat_history) % 2 == 0 else "assistant"
         else:
             prompt = system_prompt2
-            role = "assistant"
+            role = "assistant" if len(chat_history) % 2 == 0 else "user"
 
         response = generate_response(prompt, chat_history)
         chat_history.append({"role": role, "content": prompt})
         chat_history.append({"role": "assistant" if role == "user" else "user", "content": response})
         print(f"{'Agent 1' if i % 2 == 0 else 'Agent 2'}: {response}")
-        
-    for chat in chat_history:
-        print(f"{chat['role']}: {chat['content']}")
+
 if __name__ == "__main__":
     main()
