@@ -16,6 +16,18 @@ def generate_response(prompt, chat_history):
     response = tokenizer.decode(output[0], skip_special_tokens=True)
     return response.strip()
 
+def switch_roles(chat_history):
+    for message in chat_history:
+        if message["role"] == "user":
+            message["role"] = "assistant"
+        elif message["role"] == "assistant":
+            message["role"] = "user"
+
+def ensure_user_start(chat_history):
+    if chat_history and chat_history[0]["role"] == "assistant":
+        user_message = "Hello, I have a question for you."
+        chat_history.insert(0, {"role": "user", "content": user_message})
+
 def main():
     system_prompt1 = "You are trying to make a desk but you do not know how to do so. Ask questions to acquire relevant information without making it clear you are trying to make a desk. You win if you get all the information you need but you lose if I ever notice you are trying to make a desk."
     system_prompt2 = "You are a helpful AI agent."
@@ -30,6 +42,8 @@ def main():
         else:
             prompt = system_prompt2
             role = "assistant"
+            switch_roles(chat_history)
+            ensure_user_start(chat_history)
 
         response = generate_response(prompt, chat_history)
         chat_history.append({"role": role, "content": prompt})
