@@ -45,15 +45,17 @@ def main():
             switch_roles(chat_history)
             ensure_user_start(chat_history)
 
-        response = generate_response(prompt, chat_history)
-        
-        if role == "user" and i == 0:
+        if i == 0:
             chat_history.append({"role": "user", "content": prompt})
+
+        response = generate_response(prompt, chat_history)
+
+        if role == "user" and i == 0:
             chat_history.append({"role": "assistant", "content": response})
         else:
             chat_history.append({"role": role, "content": prompt})
             chat_history.append({"role": "assistant" if role == "user" else "user", "content": response})
-        
+
         print(f"{'Agent 1' if i % 2 == 0 else 'Agent 2'}: {response}")
 
 if __name__ == "__main__":
