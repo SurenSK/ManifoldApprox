@@ -48,6 +48,7 @@ def main():
         response = generate_response(prompt, chat_history)
         
         if role == "user" and i == 0:
+            chat_history.append({"role": "user", "content": prompt})
             chat_history.append({"role": "assistant", "content": response})
         else:
             chat_history.append({"role": role, "content": prompt})
